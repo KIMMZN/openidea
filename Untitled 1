@@ -6,6 +6,7 @@ indate timestamp default sysdate);
 select * from fishdata;
 
 create table ideadata(
+ideanum number primary key,
 title varchar2(20),
 text varchar2(100),
 name varchar2(20),

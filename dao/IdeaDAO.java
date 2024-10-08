@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 import dto.IdeaDTO;
 
@@ -51,10 +51,10 @@ public class IdeaDAO {
 		}
 		return false;
 	}
-	public void add (IdeaDTO ideadto) {
+	public void add (IdeaDTO ideadto) { //add
 		if(conn()) {		
 			try {
-				String sql = "insert into ideadata values (?,?,?,default,ideanum.nextval)";
+				String sql = "insert into ideadata values (ideanum.nextval,?,?,?,default)";
 				PreparedStatement psmt = conn.prepareStatement(sql);
 				psmt.setString(1, ideadto.getTitle());
 				psmt.setString(2, ideadto.getText());
@@ -105,36 +105,13 @@ public class IdeaDAO {
 		return ilist;
 	}
 	
-/*	public void delete(String delId) {
-		if(conn()) {
-			try {
-				String sql = "delete from fishdata where id=?";
-				PreparedStatement psmt = conn.prepareStatement(sql);
-				psmt.setString(1, delId);
-				psmt.executeUpdate();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				try {
-					if(conn != null) {
-						conn.close();
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}
-	}*/
+
 	public void delete(String number) {
 	  if(conn()) {
 		  try {
-			String sql = "select * from ideadata where ideanum = ? and";;
+			String sql = "delete from ideadata where ideanum = ?";
 			  PreparedStatement psmt = conn.prepareStatement(sql);			 
 			  	psmt.setString(1, number);
-			  	psmt.setstring
 				psmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -155,6 +132,90 @@ public class IdeaDAO {
 		  System.out.println("실패");
 	  }
 		
+	}
+	public ArrayList<IdeaDTO> searchOne(String temp) {
+		ArrayList<IdeaDTO> idealist = new ArrayList<>();
+		if(conn()) {
+			try {
+				//String sql = "delete from ideadata where ideanum = ?";			
+				String sql = "select * from ideadata where title like ?";
+				
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				//mapping
+				pstmt.setString(1, "%"+temp+"%");
+				ResultSet rs = pstmt.executeQuery();
+				
+				while(rs.next()) {//next()메서드는 rs에서 참조하는 테이블에서
+								//튜플을 순차적으로 하나씩 접근하는 메서드
+					IdeaDTO IdeaTemp = new IdeaDTO();
+					//rs.getString("id") rs가 접근한 튜플에서 id컬럼의 값을 가져옴
+					IdeaTemp.setIdeaNum(rs.getString("ideanum"));
+					IdeaTemp.setTitle(rs.getString("title"));;
+					IdeaTemp.setText(rs.getString("text"));
+					IdeaTemp.setUeserName(rs.getString("name"));
+					IdeaTemp.setIndate(rs.getString("indate"));
+					idealist.add(IdeaTemp);
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}else {
+			System.out.println("실패");
+		}
+		return idealist;
+	}
+	
+	public void updateTitle (IdeaDTO ideadto) {
+		if(conn()) {
+			try {
+				String sql = "update ideadata set title=? where ideanum=?";
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(2, ideadto.getIdeaNum());
+				psmt.setString(1, ideadto.getTitle());
+				psmt.executeUpdate();
+				System.out.println("업데이트 완료");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					if(conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void updateText (IdeaDTO ideadto) {
+		if(conn()) {
+			try {
+				String sql = "update ideadata set text=? where ideanum=?";
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(2, ideadto.getIdeaNum());
+				psmt.setString(1, ideadto.getText());
+				psmt.executeUpdate();
+				System.out.println("업데이트 완료");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					if(conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	
