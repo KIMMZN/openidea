@@ -1,0 +1,32 @@
+create table fishdata(
+id varchar2(8) primary key,
+pwd varchar2(4),
+indate timestamp default sysdate);
+
+select * from fishdata;
+
+create table ideadata(
+title varchar2(20),
+text varchar2(100),
+name varchar2(20),
+indate timestamp default sysdate);
+
+desc ideadata;
+select * from ideadata;
+
+CREATE SEQUENCE ideanum
+       INCREMENT BY 1
+       START WITH 1
+       MINVALUE 1
+       MAXVALUE 9999
+       NOCYCLE
+       NOCACHE
+       NOORDER;
+
+
+SELECT sequence_name, min_value, max_value, increment_by, last_number
+FROM user_sequences
+WHERE sequence_name = 'ideanum';
+
+ALTER TABLE ideadata 
+ADD ideanum NUMBER PRIMARY KEY;
