@@ -9,6 +9,7 @@ import dto.IdeaDTO;
 public class IdeaService {
 	IdeaDAO ideadao = IdeaDAO.getInstance();
 	
+	
 	public void menu() {
 		Scanner in = new Scanner(System.in);
 		while(true) {
@@ -33,7 +34,7 @@ public class IdeaService {
 				searchOne();
 				//update();
 			}else if(selNum ==6) {
-				//break;
+				break;
 			}
 		}
 	}

@@ -64,6 +64,7 @@ CREATE SEQUENCE ideanum
 
 //테이블 생성
 create table ideadata(
+
 title varchar2(20),
 text varchar2(100),
 name varchar2(20),

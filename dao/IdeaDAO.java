@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import dto.IdeaDTO;
 
 public class IdeaDAO {
@@ -40,9 +39,14 @@ public class IdeaDAO {
 			e.printStackTrace();
 		}
 	}
+	
 	private boolean conn() { // 커넥션 
+		
 		try {
+			//DriverManager.getConnection(url);
+			//DriverManager.getConnection()는 Connection객체를 리턴한다.
 			conn = DriverManager.getConnection(url, username, password);
+			
 			System.out.println("커넥션 자원 획득");
 			return true;
 		} catch (SQLException e) {
@@ -51,6 +55,7 @@ public class IdeaDAO {
 		}
 		return false;
 	}
+	
 	public void add (IdeaDTO ideadto) { //add
 		if(conn()) {		
 			try {
@@ -133,6 +138,7 @@ public class IdeaDAO {
 	  }
 		
 	}
+	
 	public ArrayList<IdeaDTO> searchOne(String temp) {
 		ArrayList<IdeaDTO> idealist = new ArrayList<>();
 		if(conn()) {
